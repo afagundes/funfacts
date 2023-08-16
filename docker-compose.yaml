@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+
+  # Esse é o banco de dados que a aplicação vai usar
+  database:
+    image: mariadb:10.10
+    container_name: database
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpwd
+      MARIADB_USER: mariadbuser
+      MARIADB_PASSWORD: mariadbpwd
+    healthcheck:
+      test: "mysql -uroot -prootpwd mysql -e 'select 1'"
+      start_period: 5s
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  # Essa é a imagem docker responsável por executar os scripts SQL no banco de dados
+  # Ela usa uma ferramenta chamada Flyway
+  # O Flyway cria uma tabela no banco chamada flyway_schema_history em que controla todas as migrações (scripts sql)
+  # aplicadas no banco, para que elas não sejam executadas novamente quando a imagem rodar
+  database-migrations:
+    build:
+      # Se refere à pasta "database" na raiz do projeto, onde estão os SQLs
+      context: database
+    container_name: database-migrations
+    environment:
+      - FLYWAY_SCHEMAS=fun-facts
+      - FLYWAY_DEFAULT_SCHEMA=fun-facts
+      - FLYWAY_URL=jdbc:mariadb://database:3306?autoReconnect=true&useSSL=false
+      - FLYWAY_USER=root
+      - FLYWAY_PASSWORD=rootpwd
+    command:
+      # Exibe o estado do banco de dados antes das migrações
+      - info
+      # Corrige alguma migração que esteja com o checksum diferente do que está na tabela flyway_schema_history
+      - repair
+      # Aplica as migrações (os scripts sql) no banco de dados
+      - migrate
+      # Exibe o estado do banco depois das migrações
+      - info
+    depends_on:
+      database:
+        condition: service_healthy
+
+  # Essa é a aplicação java rodando dentro do Docker. Dá uma olhada em ingestor/Dockerfile
+  ingestor:
+    build:
+      context: ingestor
+    container_name: ingestor
+    environment:
+      # Aqui eu estou sobrescrevendo uma variável do application.properties para trocar a url do banco de dados
+      # Dentro do docker não acessamos os recursos por localhost, mas usando o nome do container deles
+      SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/fun-facts
+    depends_on:
+      database:
+        condition: service_healthy

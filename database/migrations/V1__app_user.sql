@@ -1,0 +1,3 @@
+GRANT ALL PRIVILEGES ON *.* TO 'mariadbuser'@'%' IDENTIFIED BY 'mariadbpwd';
+
+FLUSH PRIVILEGES;
