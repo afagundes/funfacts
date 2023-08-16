@@ -49,7 +49,7 @@ Execute o comando:
 docker-compose up database database-migrations
 ```
 
-Dessa forma apenas o banco de dados e o Flyway (os scripts SQL executarão).
+Dessa forma apenas o banco de dados e o Flyway (os scripts SQL) executarão.
 
 Assim você poderá executar a aplicação Spring Boot direto no IDE ou no console.
 
