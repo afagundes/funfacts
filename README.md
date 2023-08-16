@@ -71,6 +71,7 @@ O projeto foi criado usando o [spring initializr](https://start.spring.io/) com 
 
 - [Flyway](https://flywaydb.org/)
 - [Apache Camel](https://camel.apache.org/)
+- [Apache Camel - Getting Started](https://camel.apache.org/camel-core/getting-started/index.html)
 - [Docker Compose](https://www.baeldung.com/ops/docker-compose)
 - [Dockerfile](https://docs.docker.com/engine/reference/builder/)
 - [Build Docker images](https://devopscube.com/build-docker-image/)
