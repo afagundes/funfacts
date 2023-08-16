@@ -61,6 +61,12 @@ Após parar o docker-compose com `CTRL+C` execute o seguinte comando para remove
 docker-compose down --remove-orphans
 ```
 
+## Projeto Spring Boot
+
+O projeto foi criado usando o [spring initializr](https://start.spring.io/) com as seguintes configurações:
+
+<img src="readme/spring-starter.png" alt="spring initializr configs" />
+
 ## Referências
 
 - [Flyway](https://flywaydb.org/)
