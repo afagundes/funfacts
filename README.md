@@ -55,7 +55,7 @@ Assim você poderá executar a aplicação Spring Boot direto no IDE ou no conso
 
 ## Removendo todos os containers
 
-Após parar o docker-compose com `CTRL+C` execute o seguinte comando para remover todos os containers a rede do Docker:
+Após parar o docker-compose com `CTRL+C` execute o seguinte comando para remover todos os containers e a rede do Docker:
 
 ```shell
 docker-compose down --remove-orphans
